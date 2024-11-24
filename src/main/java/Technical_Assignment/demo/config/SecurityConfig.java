@@ -36,8 +36,8 @@ public class SecurityConfig {
 			)
 			.formLogin().disable()
 			.logout(logout -> logout
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.logoutSuccessUrl(HOME_PAGE)
+				.logoutRequestMatcher(new AntPathRequestMatcher("/auth/signout"))
+				.logoutSuccessUrl("/auth/signin")
 				.invalidateHttpSession(true)
 				.clearAuthentication(true)
 				.deleteCookies("JSESSIONID")

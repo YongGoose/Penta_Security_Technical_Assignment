@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>홈</title>
+    <style>
+        .home-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .welcome-message {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .user-info {
+            font-weight: bold;
+        }
+
+        .admin-panel {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .logout-btn {
+            padding: 8px 15px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        .admin-btn {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .admin-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="home-container">
+    <div class="nav-menu">
+        <span class="user-info" th:text="${userName} + '님 환영합니다'"></span>
+        <a th:href="@{/auth/signout}" class="logout-btn">로그아웃</a>
+    </div>
+
+    <div class="welcome-message">
+        <h2>메인 페이지</h2>
+    </div>
+
+    <div th:if="${isAdmin}" class="admin-panel">
+        <h3>관리자 메뉴</h3>
+        <a href="/admin/dashboard" class="admin-btn">관리자 페이지</a>
+    </div>
+
+    <!-- 일반 사용자용 컨텐츠 영역 -->
+    <div th:unless="${isAdmin}">
+        <h3>일반 사용자 메뉴</h3>
+        <!-- 일반 사용자를 위한 컨텐츠 추가 -->
+    </div>
+</div>
+</body>
+</html>
