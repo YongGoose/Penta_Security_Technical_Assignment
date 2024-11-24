@@ -22,8 +22,6 @@ public class AuthController {
 
 	private final AuthService authService;
 
-	private static final String ERROR_MESSAGE = "아이디 또는 비밀번호가 잘못되었습니다.";
-
 	@GetMapping("/signin")
 	public String loginPage() {
 		return "signin";
@@ -45,8 +43,29 @@ public class AuthController {
 				return "redirect:/home";
 			}
 		} catch (AuthenticationException | IllegalArgumentException e) {
-			model.addAttribute("errorMessage", ERROR_MESSAGE);
+			model.addAttribute("errorMessage", e.getMessage());
 		}
 		return "signin";
+	}
+
+	@GetMapping("/signup")
+	public String signupPage() {
+		return "signup";
+	}
+
+	@PostMapping("/signup")
+	public String signup(
+		@RequestParam String userId,
+		@RequestParam String userPassword,
+		@RequestParam String userName,
+		Model model
+	) {
+		try {
+			authService.signup(userId, userPassword, userName);
+			return "redirect:/auth/signin";
+		} catch (IllegalArgumentException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		return "signup";
 	}
 }

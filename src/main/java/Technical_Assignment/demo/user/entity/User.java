@@ -7,13 +7,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @Table(name = "SYSTEM_USER")
 public class User {
@@ -34,4 +33,12 @@ public class User {
 
 	@Column(name = "user_auth", nullable = false, length = 20)
 	private String userAuth;
+
+	@Builder
+	public User(final String userId, final String userPassword, final String userName, final String userAuth) {
+		this.userId = userId;
+		this.userPassword = userPassword;
+		this.userName = userName;
+		this.userAuth = userAuth;
+	}
 }
