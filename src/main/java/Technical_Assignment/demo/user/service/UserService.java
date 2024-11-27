@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import Technical_Assignment.demo.user.dto.UserDetailDto;
 import Technical_Assignment.demo.user.dto.UserSummaryDto;
+import Technical_Assignment.demo.user.dto.UserUpdateDto;
 import Technical_Assignment.demo.user.entity.User;
 import Technical_Assignment.demo.user.mapper.UserMapper;
 import Technical_Assignment.demo.user.repository.UserRepository;
@@ -29,9 +31,17 @@ public class UserService {
 			.collect(Collectors.toList());
 	}
 
-	public UserDetailDto getUserDetail(Integer id) {
-		User user = userRepository.findById(id)
+	public UserDetailDto getUserDetail(String id) {
+		User user = userRepository.findByUserId(id)
 			.orElseThrow(() -> new IllegalArgumentException("id에 해당하는 유저가 없습니다."));
-		return UserMapper.toUserResponseDto(user);
+		return UserMapper.toUserDetailDto(user);
+	}
+
+	@Transactional
+	public UserUpdateDto updateUser(String id, String updateName) {
+		User user = userRepository.findByUserId(id)
+			.orElseThrow(() -> new IllegalArgumentException("id에 해당하는 유저가 없습니다."));
+		user.updateUserName(updateName);
+		return UserMapper.toUserUpdateDto(user);
 	}
 }

@@ -41,4 +41,8 @@ public class User {
 		this.userName = userName;
 		this.userAuth = userAuth;
 	}
+
+	public void updateUserName(final String userName) {
+		this.userName = userName;
+	}
 }

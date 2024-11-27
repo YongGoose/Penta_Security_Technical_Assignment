@@ -85,13 +85,13 @@
     <table>
         <thead>
         <tr>
-            <th>User ID</th>
+            <th>ID</th>
             <th>User Name</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user : ${userList}">
-            <td th:text="${user.userId}"></td>
+            <td th:text="${user.id}"></td>
             <td>
                 <a th:href="@{/user/detail(id=${user.userId})}" th:text="${user.userName}"></a>
             </td>
