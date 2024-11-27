@@ -22,6 +22,9 @@ public class AuthController {
 
 	private final AuthService authService;
 
+	/*
+	로그인 되어 있는 경우 -> /user 페이지로 리다이렉트
+	 */
 	@GetMapping("/signin")
 	public String loginPage() {
 		return "signin";
@@ -40,7 +43,7 @@ public class AuthController {
 			if (token != null && token.isAuthenticated()) {
 				SecurityContextHolder.getContext().setAuthentication(token);
 				session.setAttribute("user", token.getPrincipal());
-				return "redirect:/home";
+				return "redirect:/user";
 			}
 		} catch (AuthenticationException | IllegalArgumentException e) {
 			model.addAttribute("errorMessage", e.getMessage());
