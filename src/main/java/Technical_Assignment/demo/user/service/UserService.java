@@ -44,4 +44,10 @@ public class UserService {
 		user.updateUserName(updateName);
 		return UserMapper.toUserUpdateDto(user);
 	}
+
+	public void deleteUser(String id) {
+		User user = userRepository.findByUserId(id)
+			.orElseThrow(() -> new IllegalArgumentException("id에 해당하는 유저가 없습니다."));
+		userRepository.delete(user);
+	}
 }
