@@ -20,6 +20,7 @@ public class AuthService {
 
 	private static final String ADMIN = "SYSTEM_ADMIN";
 	private static final String USER = "USER";
+	private static final String ROLE = "ROLE_";
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
@@ -32,7 +33,7 @@ public class AuthService {
 		// 관리자인 경우 암호화되지 않은 비밀번호와 비교, dml.sql 참조
 		if (user.getUserAuth().equals(ADMIN) && user.getUserPassword().equals(userPassword)) {
 			return new UsernamePasswordAuthenticationToken(
-				userId, userPassword, List.of(new SimpleGrantedAuthority(user.getUserAuth()))
+				userId, userPassword, List.of(new SimpleGrantedAuthority(ROLE + user.getUserAuth()))
 			);
 		}
 
@@ -41,7 +42,7 @@ public class AuthService {
 		}
 
 		return new UsernamePasswordAuthenticationToken(
-			userId, userPassword, List.of(new SimpleGrantedAuthority(user.getUserAuth()))
+			userId, userPassword, List.of(new SimpleGrantedAuthority(ROLE + user.getUserAuth()))
 		);
 	}
 
