@@ -85,14 +85,15 @@
         <p><strong>User Auth:</strong> <span th:text="${userDetail.userAuth}"></span></p>
     </div>
 
-    <a href="#" th:href="@{/user/edit/{id}(id=${userDetail.userId})}" class="btn">Edit User</a>
-
+    <a href="#" th:href="@{/user/update(id=${userDetail.userId})}" class="btn">회원 수정</a>
     <form action="#" th:action="@{/user/delete/{id}(id=${userDetail.userId})}" method="post" style="display: inline;">
-        <button type="submit" class="btn delete" onclick="return confirm('Are you sure you want to delete this user?')">Delete User</button>
+        <button type="submit" class="btn delete" onclick="return confirm('Are you sure you want to delete this user?')">
+            Delete User
+        </button>
     </form>
 
     <div class="back-link">
-        <a href="/users">Back to Users List</a>
+        <a href="/user/list">Back to Users List</a>
     </div>
 </div>
 
