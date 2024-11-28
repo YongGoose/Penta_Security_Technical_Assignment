@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import Technical_Assignment.demo.user.dto.UserCreateDto;
 import Technical_Assignment.demo.user.dto.UserDetailDto;
 import Technical_Assignment.demo.user.dto.UserInsertDto;
 import Technical_Assignment.demo.user.dto.UserSummaryDto;
@@ -68,19 +69,19 @@ public class UserService {
 	}
 
 	@Transactional
-	public UserInsertDto insertUser(String userId, String password, String userName, String userAuth) {
-		checkUserAuth(userAuth);
+	public UserInsertDto insertUser(UserCreateDto userCreateDto) {
+		checkUserAuth(userCreateDto.getUserAuth());
 
 		User user = User.builder()
-			.userId(userId)
-			.userPassword(passwordEncoder.encode(password))
-			.userName(userName)
-			.userAuth(userAuth)
+			.userId(userCreateDto.getUserId())
+			.userPassword(passwordEncoder.encode(userCreateDto.getUserPassword()))
+			.userName(userCreateDto.getUserName())
+			.userAuth(userCreateDto.getUserAuth())
 			.build();
 		userRepository.save(user);
 
 		userHistoryService.saveUserHistory(user.getId(), ActionType.C);
-		return UserMapper.toUserInsertDto(user, password);
+		return UserMapper.toUserInsertDto(user, userCreateDto.getUserPassword());
 	}
 
 	private void checkUserAuth(String userAuth) {
