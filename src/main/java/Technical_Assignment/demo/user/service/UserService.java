@@ -12,6 +12,7 @@ import Technical_Assignment.demo.user.dto.UserInsertDto;
 import Technical_Assignment.demo.user.dto.UserSummaryDto;
 import Technical_Assignment.demo.user.dto.UserUpdateDto;
 import Technical_Assignment.demo.user.entity.User;
+import Technical_Assignment.demo.user.entity.UserAuth;
 import Technical_Assignment.demo.user.mapper.UserMapper;
 import Technical_Assignment.demo.user.repository.UserRepository;
 import Technical_Assignment.demo.user_history.entity.ActionType;
@@ -68,6 +69,8 @@ public class UserService {
 
 	@Transactional
 	public UserInsertDto insertUser(String userId, String password, String userName, String userAuth) {
+		checkUserAuth(userAuth);
+
 		User user = User.builder()
 			.userId(userId)
 			.userPassword(passwordEncoder.encode(password))
@@ -78,5 +81,11 @@ public class UserService {
 
 		userHistoryService.saveUserHistory(user.getId(), ActionType.C);
 		return UserMapper.toUserInsertDto(user, password);
+	}
+
+	private void checkUserAuth(String userAuth) {
+		if (!UserAuth.contains(userAuth)) {
+			throw new IllegalArgumentException("올바른 권한이 아닙니다.");
+		}
 	}
 }
