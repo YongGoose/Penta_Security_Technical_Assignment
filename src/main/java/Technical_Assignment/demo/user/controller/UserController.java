@@ -1,5 +1,7 @@
 package Technical_Assignment.demo.user.controller;
 
+import static Technical_Assignment.demo.user.entity.UserAuth.*;
+
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -34,7 +36,7 @@ public class UserController {
 	public String homePage(HttpSession session, Model model) {
 		User user = userService.findUserByUserId((String)session.getAttribute("user"));
 		model.addAttribute("userName", user.getUserName());
-		model.addAttribute("isAdmin", user.getUserAuth().equals("SYSTEM_ADMIN"));
+		model.addAttribute("isAdmin", user.getUserAuth().equals(SYSTEM_ADMIN.name()));
 		return "home";
 	}
 
