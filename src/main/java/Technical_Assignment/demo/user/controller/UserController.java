@@ -92,12 +92,12 @@ public class UserController {
 	@PostMapping("/add")
 	@ResponseBody
 	public ResponseEntity<UserInsertDto> addUser(
-		@RequestParam String id,
+		@RequestParam String userId,
 		@RequestParam String password,
 		@RequestParam String name,
 		@RequestParam String auth
 	) {
-		UserInsertDto userInsertDto = userService.insertUser(id, password, name, auth);
+		UserInsertDto userInsertDto = userService.insertUser(userId, password, name, auth);
 		return ResponseEntity.ok(userInsertDto);
 	}
 }
