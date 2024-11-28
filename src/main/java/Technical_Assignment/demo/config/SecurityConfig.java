@@ -2,6 +2,7 @@ package Technical_Assignment.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,7 +27,6 @@ public class SecurityConfig {
 		"/js/**",
 		"/images/**"
 	};
-	private static final String HOME_PAGE = "/home";
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -34,6 +34,11 @@ public class SecurityConfig {
 			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(auth -> auth
 				.antMatchers(PUBLIC_URLS).permitAll()
+				// Rest API 허용
+				.antMatchers(HttpMethod.POST, "/user/add").permitAll()
+				.antMatchers(HttpMethod.PUT, "/user/update").permitAll()
+				.antMatchers(HttpMethod.DELETE, "/user/delete").permitAll()
+				.antMatchers(HttpMethod.GET, "/user/find/**").permitAll()
 				.anyRequest().authenticated()
 			)
 			.formLogin().disable()

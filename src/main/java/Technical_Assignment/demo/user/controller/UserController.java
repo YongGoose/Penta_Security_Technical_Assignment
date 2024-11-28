@@ -1,5 +1,7 @@
 package Technical_Assignment.demo.user.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
@@ -45,47 +47,47 @@ public class UserController {
 
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMIN')")
 	@GetMapping("/detail")
-	public String userDetailPage(@RequestParam String id, Model model) {
-		UserDetailDto userDetail = userService.getUserDetail(id);
+	public String userDetailPage(@RequestParam String userId, Model model) {
+		UserDetailDto userDetail = userService.getUserDetail(userId);
 		model.addAttribute("userDetail", userDetail);
 		return "userdetail";
 	}
 
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMIN')")
 	@GetMapping("/update")
-	public String userUpdatePage(@RequestParam String id, Model model) {
-		model.addAttribute("id", id);
+	public String userUpdatePage(@RequestParam String userId, Model model) {
+		model.addAttribute("id", userId);
 		return "userupdate";
 	}
 
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMIN')")
 	@PostMapping("/update")
-	public String userUpdate(@RequestParam String id, @RequestParam String updateName) {
-		UserUpdateDto userUpdate = userService.updateUser(id, updateName);
+	public String userUpdate(@RequestParam String userId, @RequestParam String updateName) {
+		UserUpdateDto userUpdate = userService.updateUser(userId, updateName);
 		return "redirect:/user/detail?id=" + userUpdate.getUserId();
 	}
 
 	// Rest API
 	@PutMapping("/update")
 	@ResponseBody
-	public ResponseEntity<UserUpdateDto> updateUser(@RequestParam String id, @RequestParam String updateName) {
-		UserUpdateDto userUpdate = userService.updateUser(id, updateName);
+	public ResponseEntity<UserUpdateDto> updateUser(@RequestParam String userId, @RequestParam String updateName) {
+		UserUpdateDto userUpdate = userService.updateUser(userId, updateName);
 		return ResponseEntity.ok(userUpdate);
 	}
 
 	@PreAuthorize("hasRole('ROLE_SYSTEM_ADMIN')")
 	@PostMapping("/delete")
-	public String userDelete(@RequestParam String id) {
-		userService.deleteUser(id);
+	public String userDelete(@RequestParam String userId) {
+		userService.deleteUser(userId);
 		return "redirect:/user/list";
 	}
 
 	// Rest API
 	@DeleteMapping("/delete")
 	@ResponseBody
-	public ResponseEntity<String> deleteUser(@RequestParam String id) {
-		userService.deleteUser(id);
-		return ResponseEntity.ok("success");
+	public ResponseEntity<UserDetailDto> deleteUser(@RequestParam String userId) {
+		UserDetailDto userDetailDto = userService.deleteUser(userId);
+		return ResponseEntity.ok(userDetailDto);
 	}
 
 	// Rest API
@@ -100,4 +102,21 @@ public class UserController {
 		UserInsertDto userInsertDto = userService.insertUser(userId, password, name, auth);
 		return ResponseEntity.ok(userInsertDto);
 	}
+
+	// Rest API
+	@GetMapping("/find/id")
+	@ResponseBody
+	public ResponseEntity<UserDetailDto> findUserByUserId(@RequestParam String userId) {
+		UserDetailDto userDetail = userService.getUserDetail(userId);
+		return ResponseEntity.ok(userDetail);
+	}
+
+	// Rest API
+	@GetMapping("/find/name")
+	@ResponseBody
+	public ResponseEntity<List<UserDetailDto>> findUserByUserName(@RequestParam String userName) {
+		List<UserDetailDto> userDetails = userService.findUsersByUserName(userName);
+		return ResponseEntity.ok(userDetails);
+	}
+
 }
