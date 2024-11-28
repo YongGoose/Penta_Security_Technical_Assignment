@@ -23,6 +23,7 @@ public class SecurityConfig {
 	private static final String[] PUBLIC_URLS = {
 		"/auth/signin",
 		"/auth/signup",
+		"/",
 		"/css/**",
 		"/js/**",
 		"/images/**"
@@ -48,10 +49,6 @@ public class SecurityConfig {
 				.invalidateHttpSession(true)
 				.clearAuthentication(true)
 				.deleteCookies("JSESSIONID")
-			)
-			.sessionManagement(session -> session
-				.maximumSessions(1)
-				.maxSessionsPreventsLogin(true)
 			)
 			.build();
 	}

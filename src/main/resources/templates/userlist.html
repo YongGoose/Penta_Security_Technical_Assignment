@@ -93,7 +93,7 @@
         <tr th:each="user : ${userList}">
             <td th:text="${user.id}"></td>
             <td>
-                <a th:href="@{/user/detail(id=${user.userId})}" th:text="${user.userName}"></a>
+                <a th:href="@{/user/detail(userId=${user.userId})}" th:text="${user.userName}"></a>
             </td>
         </tr>
         <tr th:if="${userList.size() == 0}">
@@ -101,6 +101,8 @@
         </tr>
         </tbody>
     </table>
+    <button class="btn home-btn" th:onclick="|window.location.href='/user'|">Go to Home Page</button>
+
 </div>
 
 </body>

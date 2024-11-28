@@ -28,8 +28,8 @@ class UserServiceTest extends UserServiceFixture {
 		// given
 
 		// when
-		userService.insertUser(일반_회원_아이디, 일반_회원_비밀번호, 일반_회원_이름, 일반_회원_권한);
-		userService.insertUser(관리자_회원_아이디, 관리자_회원_비밀번호, 관리자_회원_이름, 관리자_회원_권한);
+		userService.insertUser(일반_회원_생성_요청);
+		userService.insertUser(관리자_회원_생성_요청);
 
 		// then
 		User actual_일반 = userService.findUserByUserId(일반_회원_아이디);
