@@ -23,6 +23,7 @@ public class SecurityConfig {
 	private static final String[] PUBLIC_URLS = {
 		"/auth/signin",
 		"/auth/signup",
+		"/",
 		"/css/**",
 		"/js/**",
 		"/images/**"
@@ -35,7 +36,7 @@ public class SecurityConfig {
 			.authorizeHttpRequests(auth -> auth
 				.antMatchers(PUBLIC_URLS).permitAll()
 				// Rest API 허용
-				.antMatchers(HttpMethod.POST, "/user/add").permitAll()
+				.antMatchers(HttpMethod.POST, "/user/create").permitAll()
 				.antMatchers(HttpMethod.PUT, "/user/update").permitAll()
 				.antMatchers(HttpMethod.DELETE, "/user/delete").permitAll()
 				.antMatchers(HttpMethod.GET, "/user/find/**").permitAll()
@@ -48,10 +49,6 @@ public class SecurityConfig {
 				.invalidateHttpSession(true)
 				.clearAuthentication(true)
 				.deleteCookies("JSESSIONID")
-			)
-			.sessionManagement(session -> session
-				.maximumSessions(1)
-				.maxSessionsPreventsLogin(true)
 			)
 			.build();
 	}

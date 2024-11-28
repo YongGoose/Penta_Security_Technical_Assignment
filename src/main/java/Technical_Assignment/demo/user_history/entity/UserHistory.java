@@ -1,5 +1,6 @@
 package Technical_Assignment.demo.user_history.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -42,4 +43,13 @@ public class UserHistory {
 
 	@Column(name = "reg_dt", nullable = false)
 	private LocalDateTime regDate;
+
+	@Builder
+	public UserHistory(final ActionType actionType, final Integer regUserId, final LocalDateTime regDate) {
+		this.actionType = actionType;
+		this.regUserId = regUserId;
+		this.regDate = regDate;
+		this.url = "url";
+		this.regIp = "regIp";
+	}
 }
