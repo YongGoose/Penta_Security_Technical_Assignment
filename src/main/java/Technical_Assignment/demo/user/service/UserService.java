@@ -28,30 +28,36 @@ public class UserService {
 			.orElseThrow(() -> new IllegalArgumentException("userId에 해당하는 유저가 없습니다."));
 	}
 
+	public List<UserDetailDto> findUsersByUserName(String userName) {
+		return userRepository.findUsersByUserName(userName).stream()
+			.map(UserMapper::toUserDetailDto)
+			.collect(Collectors.toList());
+	}
+
 	public List<UserSummaryDto> findAll() {
 		return userRepository.findAll().stream()
 			.map(UserMapper::toUserSummaryDto)
 			.collect(Collectors.toList());
 	}
 
-	public UserDetailDto getUserDetail(String id) {
-		User user = userRepository.findByUserId(id)
-			.orElseThrow(() -> new IllegalArgumentException("id에 해당하는 유저가 없습니다."));
+	public UserDetailDto getUserDetail(String userId) {
+		User user = findUserByUserId(userId);
 		return UserMapper.toUserDetailDto(user);
 	}
 
 	@Transactional
-	public UserUpdateDto updateUser(String id, String updateName) {
-		User user = userRepository.findByUserId(id)
-			.orElseThrow(() -> new IllegalArgumentException("id에 해당하는 유저가 없습니다."));
+	public UserUpdateDto updateUser(String userId, String updateName) {
+		User user = findUserByUserId(userId);
 		user.updateUserName(updateName);
 		return UserMapper.toUserUpdateDto(user);
 	}
 
-	public void deleteUser(String id) {
-		User user = userRepository.findByUserId(id)
-			.orElseThrow(() -> new IllegalArgumentException("id에 해당하는 유저가 없습니다."));
+	@Transactional
+	public UserDetailDto deleteUser(String userId) {
+		User user = findUserByUserId(userId);
 		userRepository.delete(user);
+
+		return UserMapper.toUserDetailDto(user);
 	}
 
 	public UserInsertDto insertUser(String userId, String password, String userName, String userAuth) {
