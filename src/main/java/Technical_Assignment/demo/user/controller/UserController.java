@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import Technical_Assignment.demo.user.dto.UserDetailDto;
+import Technical_Assignment.demo.user.dto.UserInsertDto;
 import Technical_Assignment.demo.user.dto.UserUpdateDto;
 import Technical_Assignment.demo.user.entity.User;
 import Technical_Assignment.demo.user.service.UserService;
@@ -79,10 +80,24 @@ public class UserController {
 		return "redirect:/user/list";
 	}
 
+	// Rest API
 	@DeleteMapping("/delete")
 	@ResponseBody
 	public ResponseEntity<String> deleteUser(@RequestParam String id) {
 		userService.deleteUser(id);
 		return ResponseEntity.ok("success");
+	}
+
+	// Rest API
+	@PostMapping("/add")
+	@ResponseBody
+	public ResponseEntity<UserInsertDto> addUser(
+		@RequestParam String id,
+		@RequestParam String password,
+		@RequestParam String name,
+		@RequestParam String auth
+	) {
+		UserInsertDto userInsertDto = userService.insertUser(id, password, name, auth);
+		return ResponseEntity.ok(userInsertDto);
 	}
 }

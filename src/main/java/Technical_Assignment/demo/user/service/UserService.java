@@ -3,10 +3,12 @@ package Technical_Assignment.demo.user.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import Technical_Assignment.demo.user.dto.UserDetailDto;
+import Technical_Assignment.demo.user.dto.UserInsertDto;
 import Technical_Assignment.demo.user.dto.UserSummaryDto;
 import Technical_Assignment.demo.user.dto.UserUpdateDto;
 import Technical_Assignment.demo.user.entity.User;
@@ -19,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
 	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	public User findUserByUserId(String userId) {
 		return userRepository.findByUserId(userId)
@@ -49,5 +52,18 @@ public class UserService {
 		User user = userRepository.findByUserId(id)
 			.orElseThrow(() -> new IllegalArgumentException("id에 해당하는 유저가 없습니다."));
 		userRepository.delete(user);
+	}
+
+	public UserInsertDto insertUser(String userId, String password, String userName, String userAuth) {
+		User user = User.builder()
+			.userId(userId)
+			.userPassword(passwordEncoder.encode(password))
+			.userName(userName)
+			.userAuth(userAuth)
+			.build();
+
+		userRepository.save(user);
+
+		return UserMapper.toUserInsertDto(user, password);
 	}
 }
