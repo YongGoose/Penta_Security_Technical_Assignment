@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:tc:mariadb:///testdb
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: create
+  test:
+    database:
+      replace: none
