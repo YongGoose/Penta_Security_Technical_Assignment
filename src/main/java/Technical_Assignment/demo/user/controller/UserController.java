@@ -91,7 +91,7 @@ public class UserController {
 	}
 
 	// Rest API
-	@PostMapping("/add")
+	@PostMapping("/create")
 	@ResponseBody
 	public ResponseEntity<UserInsertDto> addUser(
 		@RequestParam String userId,

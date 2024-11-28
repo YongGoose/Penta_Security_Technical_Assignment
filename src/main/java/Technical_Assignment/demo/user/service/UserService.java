@@ -14,6 +14,8 @@ import Technical_Assignment.demo.user.dto.UserUpdateDto;
 import Technical_Assignment.demo.user.entity.User;
 import Technical_Assignment.demo.user.mapper.UserMapper;
 import Technical_Assignment.demo.user.repository.UserRepository;
+import Technical_Assignment.demo.user_history.entity.ActionType;
+import Technical_Assignment.demo.user_history.service.UserHistoryService;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,6 +24,7 @@ public class UserService {
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final UserHistoryService userHistoryService;
 
 	public User findUserByUserId(String userId) {
 		return userRepository.findByUserId(userId)
@@ -49,6 +52,8 @@ public class UserService {
 	public UserUpdateDto updateUser(String userId, String updateName) {
 		User user = findUserByUserId(userId);
 		user.updateUserName(updateName);
+
+		userHistoryService.saveUserHistory(user.getId(), ActionType.U);
 		return UserMapper.toUserUpdateDto(user);
 	}
 
@@ -57,9 +62,11 @@ public class UserService {
 		User user = findUserByUserId(userId);
 		userRepository.delete(user);
 
+		userHistoryService.saveUserHistory(user.getId(), ActionType.D);
 		return UserMapper.toUserDetailDto(user);
 	}
 
+	@Transactional
 	public UserInsertDto insertUser(String userId, String password, String userName, String userAuth) {
 		User user = User.builder()
 			.userId(userId)
@@ -67,9 +74,9 @@ public class UserService {
 			.userName(userName)
 			.userAuth(userAuth)
 			.build();
-
 		userRepository.save(user);
 
+		userHistoryService.saveUserHistory(user.getId(), ActionType.C);
 		return UserMapper.toUserInsertDto(user, password);
 	}
 }

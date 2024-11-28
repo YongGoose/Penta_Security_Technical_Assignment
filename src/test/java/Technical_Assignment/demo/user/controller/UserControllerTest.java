@@ -27,7 +27,7 @@ class UserControllerTest extends UserControllerFixture {
 
 		// when & then
 		mockMvc.perform(
-				post("/user/add")
+				post("/user/create")
 					.contentType(MediaType.APPLICATION_JSON_VALUE)
 					.param("userId", 일반_회원_아이디)
 					.param("password", 일반_회원_비밀번호)
@@ -49,7 +49,7 @@ class UserControllerTest extends UserControllerFixture {
 
 		// when & then
 		mockMvc.perform(
-				post("/user/add")
+				post("/user/create")
 					.contentType(MediaType.APPLICATION_JSON_VALUE)
 					.param("userId", 관리자_회원_아이디)
 					.param("password", 관리자_회원_비밀번호)
